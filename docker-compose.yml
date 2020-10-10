@@ -1,0 +1,71 @@
+version: "3.7"
+
+services:
+  db:
+    container_name: boiler-plate-api-db
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    ports:
+      - "6759:5432"
+
+  flyway:
+    container_name: boiler-plate-api-flyway
+    image: flyway/flyway:6-alpine
+    depends_on:
+      - db
+    volumes:
+      - ./sql:/flyway/sql
+    command: -url="jdbc:postgresql://db:5432/postgres" -user="postgres" -password="postgres" -connectRetries=60 migrate
+
+  api:
+    container_name: boiler-plate-api-api
+    build:
+      dockerfile: local.Dockerfile
+      context: .
+    environment:
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=postgres
+      - DB_PORT=5432
+      - DB_HOST=db
+    env_file: ./.env
+    volumes:
+      - ./src:/app/src
+      - ./test:/app/test
+    depends_on: [db]
+    ports:
+      - "6750:3000"
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - 2181:2181
+    volumes:
+      - ./data/zookeeper/data:/data
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - 9094:9094
+    environment:
+      KAFKA_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://kafka:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://localhost:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: test_topic:1:1
+    volumes:
+      - ./data/kafka/data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+  kafkadrop:
+    hostname: kafkadrop
+    image: obsidiandynamics/kafdrop:latest
+    environment:
+      - KAFKA_BROKERCONNECT=kafka:9092
+    ports:
+      - 9000:9000

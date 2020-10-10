@@ -1,75 +1,75 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# NESTJS API BOILER-PLATE
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This is a boiler-plate to setup an api using nestjs. This boiler-plate features:
 
-## Description
+- endpoints for api health
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**Note**: `This is a boiler-plate`
 
-## Installation
+## Tech
 
-```bash
-$ npm install
+- nestjs
+- kafkajs
+- date-fns
+- pg
+- typeorm
+- express
+- typescript
+
+## Setup
+
+Begin setup by installing the dependencies:
+
+```
+yarn
 ```
 
-## Running the app
+To run the API, begin by running `docker-compose`.
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+docker-compose up --build
 ```
 
-## Test
+This should:
 
-```bash
-# unit tests
-$ npm run test
+1. start up the postgres database
+2. run flyway to apply the _same_ migration files that captain would apply
+3. start the API in development mode - automatic restart on file changes
+4. start zookeer
+5. start kafa broker
+6. start kafkadrop ui 
 
-# e2e tests
-$ npm run test:e2e
+### Testing
 
-# test coverage
-$ npm run test:cov
+You can run `unit` tests:
+
+```
+yarn test
 ```
 
-## Support
+You can also run a small set of _integration_ tests:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Note**: only try these commands locally while running this project's `docker-compose.yml`
 
-## Stay in touch
+```
+yarn test:e2e
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Deployments
 
-## License
+Deployments follow this approach:
 
-  Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+1. `dev` environment ⇚ `develop`
+2. `stage` environment ⇚ `master`
+3. `prod` environment ⇚ tag on `master`
+
+Feature development can be performed in a `f/*` branch. Any branch prefixed with `f/` will:
+
+1. perform compilation checks
+2. run the unit tests
+
+## Environments
+
+- dev
+- stage
+- production
