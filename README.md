@@ -15,6 +15,7 @@ This is a boiler-plate to setup an api using nestjs. This boiler-plate features:
 - typeorm
 - express
 - typescript
+- docker
 
 ## Setup
 
@@ -37,7 +38,7 @@ This should:
 3. start the API in development mode - automatic restart on file changes
 4. start zookeer
 5. start kafa broker
-6. start kafkadrop ui 
+6. start kafkadrop ui
 
 ### Testing
 
