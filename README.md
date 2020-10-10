@@ -16,6 +16,7 @@ This is a boiler-plate to setup an api using nestjs. This boiler-plate features:
 - express
 - typescript
 - docker
+- swagger
 
 ## Setup
 
@@ -71,6 +72,6 @@ Feature development can be performed in a `f/*` branch. Any branch prefixed with
 
 ## Environments
 
-- dev
+- dev - swagger-ui (http://localhost:6750/api/)
 - stage
 - production
