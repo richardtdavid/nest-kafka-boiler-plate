@@ -21,7 +21,7 @@ This is a boiler-plate to setup an api using nestjs. This boiler-plate features:
 Begin setup by installing the dependencies:
 
 ```
-yarn
+npm install
 ```
 
 To run the API, begin by running `docker-compose`.
@@ -44,7 +44,7 @@ This should:
 You can run `unit` tests:
 
 ```
-yarn test
+npm run test
 ```
 
 You can also run a small set of _integration_ tests:
@@ -52,7 +52,7 @@ You can also run a small set of _integration_ tests:
 **Note**: only try these commands locally while running this project's `docker-compose.yml`
 
 ```
-yarn test:e2e
+npm run test:e2e
 ```
 
 ## Deployments
