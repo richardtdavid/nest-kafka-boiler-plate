@@ -35,7 +35,7 @@ docker-compose up --build
 This should:
 
 1. start up the postgres database
-2. run flyway to apply the _same_ migration files that captain would apply
+2. run flyway to apply the _same_ migration files 
 3. start the API in development mode - automatic restart on file changes
 4. start zookeer
 5. start kafa broker
